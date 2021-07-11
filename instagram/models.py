@@ -36,3 +36,13 @@ class Image(models.Model):
   def __str__(self):
     return "%s image" % self.name
 
+class Like(models.Model):
+  like = models.BooleanField()
+  image = models.ForeignKey(
+      Image, on_delete=models.CASCADE, related_name='imagelikes')
+  user = models.ForeignKey(
+      User, on_delete=models.CASCADE, related_name='userlikes')
+
+  def __str__(self):
+    return "%s like" % self.image
+
