@@ -1,0 +1,185 @@
+{% extends 'main/base.html' %}
+{% load crispy_forms_tags %}
+{% block content %}
+
+{{block.super}}
+<style>
+    a[href] {
+        text-decoration: none;
+        color: #975fb8;
+    }
+
+    .user_stories {
+        border-style: dashed;
+        border-color: lightgray;
+        border-radius: 10px;
+        border-width: medium;
+    }
+
+    #title {
+        text-align: center;
+        font-size: 22px;
+        color: #EE9B00;
+    }
+</style>
+
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-10">
+            <div class="flex mt-3 pt-3 ml-3 pl-3">
+                <div>
+                    <a href="{% url 'profile' %}"><img src="{{user.profile.profile_pic.url}}"
+                            class="rounded-circle border" alt="{{user.profile.name}}" width="80" height="80"></a>
+                </div>
+                <div>
+                    <a href="{% url 'profile' %}">
+                        <h2 class="text-monospace ml-3 pt-2"><small><strong>{{user.username}}</strong></small></h2>
+                    </a>
+                </div>
+            </div>
+            {% if images %}
+            {% for image in images %}
+            <div class="row post{{image.de}}">
+                <div class="card pt-3 mt-4">
+                    <div class="card-header head">
+                        <div>
+                            <!-- displaying profile picture -->
+                            <a href="{% url 'others_profile' image.user.id %}">
+                                <img src="{{image.user.profile.profile_pic.url}}" class="rounded-circle border"
+                                    alt="{{image.user.profile.profile_pic.url}}" width="80" height="80">
+                            </a>
+                        </div>
+                        <div>
+                            <a href="{% url 'others_profile' image.user.id %}">
+                                <!-- to display username for person posting the image -->
+                                <p class="text-monospace ml-3 pt-2">
+                                    <small><strong>{{image.user.username}}</strong></small></p>
+                                <!-- To display image title -->
+                                <p id="title" class="text-monospace ml-3"><small>{{image.name}}</small></p>
+                            </a>
+                        </div>
+
+                    </div>
+                    <!-- displaying images posted -->
+                    <div class="card-header" text-align="center">
+                        <img src="{{image.image.url }}" alt="" class="card-img">
+                    </div>
+                    <div class="card-body">
+                        <div class="flex">
+
+                            <div class="ml-3">
+                                <i class="fas fa-heart like_u">
+                                    <input type="hidden" class="post_id" value="{{image.de}}">
+                                </i>
+                            </div>
+                        </div>
+
+                        <div>
+                            <p><strong class="ml-3 image_likes">{{image.all_likes}} </strong>
+                                <strong>Likes</strong> </p>
+
+                        </div>
+
+                        <div>
+                            <p class="text-muted text-monospace ml-3"><strong>{{image.name}}</strong> {{image.caption}}
+                            </p>
+                        </div>
+
+                        <!-- Form for adding comments -->
+                        <form action="{% url 'commenting' image_id=image.id %}" method="post">
+                            <i class="far fa-comment"></i>
+                            {% csrf_token %}
+                            {{comment_form|crispy}}
+                            <br>
+                            <input type="submit" class="btn btn-success btn btn-lg" value="Post">
+                        </form>
+
+                        <!-- Displaying comments already posted -->
+                        {% if image.all_comments.count > 2 %}
+                        <div class="ml-3 ">
+                            <a href="{% url 'allcomments' image_id=image.id %}" class="text-muted">View all
+                                {{image.all_comments|length}} comments</a>
+                        </div>
+                        {% endif %}
+                        <!-- Displaying the previous comments -->
+                        {% for comment in image.all_comments|slice:"2" %}
+                        <p class="ml-3"><span class="font-weight-bold">{{comment.user.username}}</span>
+                            {{comment.comment}}</p>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+
+            {% endfor %}
+            {% endif %}
+        </div>
+        <!-- Displaying others profile -->
+
+        <div class="col-md-2" id="fix">
+            <br>
+            <br>
+            <br>
+            <br>
+            <br>
+            <br>
+            <br>
+            <hr>
+            <div class="user_stories pt-3 mt-3 ml-3 pl-3">
+                <p class="text-muted text-center text-monospace">
+                    See people you are following here.
+                </p>
+            </div>
+
+            <div class="user_stories pt-3 mt-3 ml-3 pl-3">
+                {% if all %}
+                {% for us in all %}
+                <div class="flex mt-3 pt-3 ml-3 pl-3">
+                    <!-- Displaying profile pictures -->
+                    <div>
+                        <a href="{% url 'others_profile' us.id  %}"><img src="{{us.profile.profile_pic.url}}"
+                                class="square border" alt="{{us.profile.name}}" width="20" height="20"></a>
+                    </div>
+                    <!-- Div class to display Others user name and link to their variuos posts -->
+                    <div>
+                        <a href="{% url 'others_profile' us.id   %}">
+                            <p class="text-monospace ml-3 pt-2"><small><strong>{{us.username}}</strong></small></p>
+                        </a>
+                    </div>
+                </div>
+                {% endfor %}
+                {% else %}
+                <p class="text-muted text-center text-monospace">
+                    Suggestions for you
+                </p>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+<!-- New posts -->
+<div class="modal fade" id="post" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
+    aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-body">
+                <form action="{% url 'post' %}" method="POST" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    <fieldset class="form-group">
+                        {{post|crispy}}
+                    </fieldset>
+                    <div class="form-group">
+                        <a href="{% url 'post' %}">
+                            <button class="btn btn-outline-info" type="submit">Post</button>
+                        </a>
+                    </div>
+                    <div class="modal-header " id="md">
+                        <a href="#" data-dismiss="modal">cancel</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}
