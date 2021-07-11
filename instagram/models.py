@@ -1,5 +1,8 @@
 from django.db import models
 from django.contrib.auth.models import User
+from django.dispatch import receiver
+from django.db.models.signals import post_save
+
 # Create your models here.
 
 
@@ -56,3 +59,50 @@ class Comment(models.Model):
 
   def __str__(self):
     return "%s comment" % self.image
+
+# Profile db
+class Profile(models.Model):
+  profile_pic = models.ImageField(default='default.jpg', upload_to='profile/')
+  bio = models.TextField()
+  user = models.OneToOneField(User, on_delete=models.CASCADE)
+
+  @receiver(post_save, sender=User)
+  def create_profile(instance, sender, created, **kwargs):
+    if created:
+      Profile.objects.create(user=instance)
+
+  @receiver(post_save, sender=User)
+  def save_profile(sender, instance, **kwargs):
+    instance.profile.save()
+
+  @property
+  def all_followers(self):
+    return self.followers.count()
+
+  @property
+  def all_following(self):
+    return self.following.count()
+
+  @property
+  def follows(self):
+    return [follow.followee for follow in self.following.all()]
+
+  @property
+  def following(self):
+    return self.followers.all()
+
+  @classmethod
+  def search_profiles(cls, search_term):
+    profiles = cls.objects.filter(user__username__icontains=search_term).all()
+    return profiles
+
+  def __str__(self):
+    return "%s profile" % self.user
+
+
+class Follows(models.Model):
+  follower = models.ForeignKey(Profile, related_name='following', on_delete=models.CASCADE)
+  followee = models.ForeignKey(Profile, related_name='followers', on_delete=models.CASCADE)
+
+  def __str__(self):
+    return "%s follower" % self.follower
