@@ -64,7 +64,7 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
-    'user',
+    'instagram',
     'bootstrap3',
     'bootstrap4',
     'cloudinary',

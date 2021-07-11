@@ -7,7 +7,7 @@ from django.contrib.auth.decorators import login_required
 from.models import Image, Profile, Like, Follows
 from django.http import JsonResponse
 from django.contrib.auth.models import User
-from email import send_welcome_email
+# from email import send_welcome_email
 
 
 # Create your views here.
@@ -69,7 +69,7 @@ def update_profile(request):
 @login_required
 def commenting(request, image_id):
   c_form = CommentForm()
-  image = Image.objects.filter(de=image_id).first()
+  image = Image.objects.filter(pk=image_id).first()
   if request.method == 'POST':
     c_form = CommentForm(request.POST)
     if c_form.is_valid():
@@ -83,11 +83,11 @@ def commenting(request, image_id):
 @login_required
 def likes(request, image_id):
   if request.method == 'GET':
-    image = Image.objects.get(de=image_id)
+    image = Image.objects.get(pk=image_id)
     user = request.user
     check_user = Like.objects.filter(user=user, image=image).first()
     if check_user == None:
-      image = Image.objects.get(de=image_id)
+      image = Image.objects.get(pk=image_id)
       like = Like(like=True, image=image, user=user)
       like.save()
       return JsonResponse({'success': True, "img": image_id, "status": True})
@@ -98,7 +98,7 @@ def likes(request, image_id):
 
 @login_required
 def allcomments(request, image_id):
-  image = Image.objects.filter(de=image_id).first()
+  image = Image.objects.filter(pk=image_id).first()
   return render(request, 'main/imagescomments.html', {"image": image})
 
 
@@ -126,8 +126,8 @@ def post(request):
 
 
 @login_required
-def others_profile(request, de):
-  user = User.objects.get(de=de)
+def others_profile(request, pk):
+  user = User.objects.get(pk=pk)
   images = Image.objects.filter(user=user)
   c_user = request.user
 
@@ -137,7 +137,7 @@ def others_profile(request, de):
 @login_required
 def follow(request, user_id):
   followee = request.user
-  followed = Follows.objects.get(de=user_id)
+  followed = Follows.objects.get(pk=user_id)
   follow_data = Follows(follower=followee.profile, followee=followed.profile)
   follow_data.save()
   return redirect('others_profile')
@@ -146,7 +146,7 @@ def follow(request, user_id):
 @login_required
 def unfollow(request, user_id):
   followee = request.user
-  follower = Follows.objects.get(de=user_id)
+  follower = Follows.objects.get(pk=user_id)
   follow_data = Follows.objects.filter(
       follower=follower, followee=followee).first()
   follow_data.delete()
@@ -155,7 +155,7 @@ def unfollow(request, user_id):
 
 @login_required
 def delete(request, image_id):
-  image = Image.objects.get(de=image_id)
+  image = Image.objects.get(pk=image_id)
   if image:
     image.delete_post()
   return redirect('profile')
@@ -165,6 +165,6 @@ def delete(request, image_id):
 def deleteaccount(request):
 
   current_user = request.user
-  account = User.objects.get(de=current_user.id)
+  account = User.objects.get(pk=current_user.id)
   account.delete()
   return redirect('register')

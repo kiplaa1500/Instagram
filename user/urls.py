@@ -18,7 +18,7 @@ from django.contrib import admin
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
-    url('',include('user.urls')),
+    url('',include('instagram.urls')),
     url(r'^accounts/', include('registration.backends.simple.urls')),
     url(r'^tinymce/', include('tinymce.urls')),
     
