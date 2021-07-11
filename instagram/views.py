@@ -1,6 +1,7 @@
 from django.shortcuts import render, redirect
 from django.contrib import messages
-from .forms import Registration, UpdateUser, UpdateProfile, CommentForm, postImageForm
+from .forms import Registration
+
 
 # Create your views here.
 def register(request):
