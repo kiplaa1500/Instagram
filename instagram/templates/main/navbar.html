@@ -1,0 +1,31 @@
+<nav class="navbar navbar-expand-md">
+    <div class="container">
+        <a href="{% url 'index' %}" class="navbar-brand mr-3"><i style="font-size: 40px;" class="fab fa-instagram"></i>
+            |
+            <img src="https://www.instagram.com/static/images/web/mobile_nav_type_logo.png/735145cfe0a4.png" alt=""></a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarToggle"
+            aria-controls="navbarToggle" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+    </div>
+    <br>
+    <br>
+
+    <div class="collapse navbar-collapse" id="navbarToggle">
+        <div class="navbar-nav mr-auto ">
+            <form class="mb-0 h1 ml-auto mr-auto" id="searchform" action="{% url 'search' %}">
+                <input autocomplete="off" class="form-control d-none d-md-block" placeholder="Search"
+                    name="search_user">
+            </form>
+        </div>
+
+        <!-- Icon to render new post  -->
+        <div class="navbar-nav">
+
+            <a class="nav-item nav-link" data-toggle="modal" data-target="#post" href="#">
+                <i class="fas fa-plus-circle" style="font-size: 30px;"></i>
+            </a>
+
+        </div>
+    </div>
+</nav>
