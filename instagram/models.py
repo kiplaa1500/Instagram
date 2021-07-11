@@ -38,11 +38,21 @@ class Image(models.Model):
 
 class Like(models.Model):
   like = models.BooleanField()
-  image = models.ForeignKey(
-      Image, on_delete=models.CASCADE, related_name='imagelikes')
-  user = models.ForeignKey(
-      User, on_delete=models.CASCADE, related_name='userlikes')
+  image = models.ForeignKey(Image, on_delete=models.CASCADE, related_name='imagelikes')
+  user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='userlikes')
 
   def __str__(self):
     return "%s like" % self.image
+# class for comments 
+class Comment(models.Model):
+  comment = models.TextField()
+  image = models.ForeignKey(Image, on_delete=models.CASCADE, related_name='comments')
+  user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='comments')
 
+  @classmethod
+  def display_comments_by_imageId(cls, image_id):
+    comments = cls.objects.filter(image_id=image_id)
+    return comments
+
+  def __str__(self):
+    return "%s comment" % self.image
