@@ -1,14 +1,36 @@
-#   Instagram
+#   Instagram Replica
 #### this Project was created on 11/07/2021.
 ## Author
 Dennis Kiplangat Cheruiyot 
 ## Instagram
 Instagram clone app that resembles the actual instagram application set for best responsiveness to fit all users be it small or wide screens.
+## User Story
+
+As a user of the application you will be able to:
+
+* + Sign in to the application to start using.
+* + Upload my pictures to the application.
+* + See my profile with all my pictures.
+* + Follow other users and see their pictures on my timeline.
+* + Like a picture and leave a comment on it..
+
 ## project Set up Instructions
 * Ctrl + alt + t to open the terminal
 * now git clone https://github.com/kiplaa1500/Instagram
 * cd Instagram
 * you can use code . or atom . to open it.
+
+#### To install a virtual environment
+
+* ```python3.8 -m venv virtual``` 
+* ```source virtual/bin/activate```
+
+#### To install all dependencies
+
+* ```python3.6 -m pip install -r requirements.txt```
+
+#### To run the project
+* Run ```python3.8 manage.py runserver``` or use this link ```http://127.0.0.1:8000/``` 
 
 
 ## Technologies Used
@@ -19,7 +41,7 @@ Instagram clone app that resembles the actual instagram application set for best
 *Github- to host the web building process with a live link
 ## Support and contact details
 My sincere gratitudes to my TM  Mr. Ken G. for the guidance during this project implementation.
-Reach me on email: ole_sigilai@yahoo.com
+Reach me on email: kiplangatdennis99@gmail.com
 ## Live Link
 
 ### MIT License
