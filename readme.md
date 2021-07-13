@@ -27,7 +27,7 @@ As a user of the application you will be able to:
 
 #### To install all dependencies
 
-* ```python3.6 -m pip install -r requirements.txt```
+* ```python3.8 -m pip install -r requirements.txt```
 
 #### To run the project
 * Run ```python3.8 manage.py runserver``` or use this link ```http://127.0.0.1:8000/``` 
@@ -43,7 +43,7 @@ As a user of the application you will be able to:
 My sincere gratitudes to my TM  Mr. Ken G. for the guidance during this project implementation.
 Reach me on email: kiplangatdennis99@gmail.com
 ## Live Link
-
+``https://deninsta.herokuapp.com/index/``
 ### MIT License
 
 Copyright (c) 2021 @kiplangat
