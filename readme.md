@@ -43,7 +43,7 @@ As a user of the application you will be able to:
 My sincere gratitudes to my TM  Mr. Ken G. for the guidance during this project implementation.
 Reach me on email: kiplangatdennis99@gmail.com
 ## Live Link
-``https://deninsta.herokuapp.com/index/``
+https://deninsta.herokuapp.com/index/
 ### MIT License
 
 Copyright (c) 2021 @kiplangat
